@@ -2,7 +2,6 @@
 
 const fsP = require("fs/promises");
 const axios = require("axios");
-const { readFile } = require("fs");
 
 const argv = process.argv;
 
@@ -29,24 +28,18 @@ async function cat(path) {
 async function webCat(url) {
   try {
     const contents = await axios.get(url);
-    console.log(contents);
+    console.log(contents.data);
   }
   catch (e) {
-    console.error("error", e.code)
-    process.exit(1)
+    console.error("error", e);
+    process.exit(1);
   }
 }
 
 /** Check if argument is a file path or URL,
  *  calls either cat or webCat, respectively.  */
-async function readDoc(arg) {
-  arg = argv[2]
-  if (arg.includes("http")){
-    await webCat(arg)
-  }
-  else {
-    await cat(arg)
-  }
+function readDoc(arg) {
+  arg.includes("http") ? webCat(arg): cat(arg);
 }
 
-readDoc()
+readDoc(argv[2]);

@@ -11,7 +11,6 @@ const argv = process.argv;
  */
 
 async function cat(path) {
-  path = argv[2];
   try {
     const contents = await fsP.readFile(path, "utf8");
     console.log("path contents", contents);
@@ -22,4 +21,4 @@ async function cat(path) {
   }
 }
 
-cat();
+cat(argv[2]);
